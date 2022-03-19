@@ -10,6 +10,9 @@ const MONGO_URI = `mongodb+srv://Dsin16:pDP9dnI3xhDhuzs3@cluster0.z0jzl.mongodb.
 
 mongoose.connect(MONGO_URI);
 
+app.use(express.json());
+app.use(express.urlencoded());
+
 //WTH WHY DOESN'T THIS WORK THO??
 app.use(express.static(__dirname + '/client/index.html'));
 // app.use('/build', express.static(path.join(__dirname, '../build')));
@@ -21,34 +24,46 @@ app.get('/', (req, res) => {
 });
 
 // respond to POST request with log-in info
-// app.post('/', controller.verifyLogIn, (req, res) => {
-//   // if login returned from db is not null, send back 'successful login'
-//   if (res.locals.User){
-//     //res.redirect('../client/index.html') // calendar page !!!!!!!!!!!!'
-//     console.log('working from post verifyLogin')
-//   }
-
-// });
-
-//
-app.get('/all', testGet, (req, res) => {
-  res.send(res.locals.foundUser);
-})
-
-//get route for testing server
 app.post('/', controller.verifyLogIn, (req, res) => {
-  res.json('user verified');
-})
+  // if login returned from db is not null, send back 'successful login'
+  if (res.locals.foundUser){
+    res.status(200).send('login successful')
+    //res.redirect('/calendar') // calendar page !!!!!!!!!!!!'
+    // console.log('working from post verifyLogin')
+  } else {
+    res.status(400).send('login unsuccessful/redirect to login')
+  }
+});
 
+
+// redirected to sign up 
+app.post('/signup', controller.signup, (req, res) => {
+  if (res.locals.newUser){
+    res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'))
+    } else {
+      res.status(400).send('send back to sign up page') // signup page !!!!!!!!!!!!
+    }
+})
 // when redirected to calendar, respond to GET req and serve ALL med list for that user
-app.get('/calendar')
+app.get('/calendar', (req, res) => {
+  res.status(200).send(`all of user's medlist`)
+})
 // respond to POST req for new medicine 
-app.post('/addcard')
+app.post('/addcard', (req, res) => {
+  res.status(200).send('new card')
+})
 // respond to PUT req for updating med info
-app.put('/updatecard')
+app.put('/updatecard', (req, res) => {
+  res.status(200).send('updated card')
+})
 // respond to DELETE req for deleting med 
 app.delete('/deletecard')
 
+
+/******** TEST ROUTE FOR GRABBING ALL USERS IN DB ********/
+app.get('/all', controller.testGet, (req, res) => {
+  res.send(res.locals.foundUser);
+})
 
 
 

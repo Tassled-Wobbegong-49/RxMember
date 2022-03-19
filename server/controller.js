@@ -28,22 +28,26 @@ const controller = {
     })
   },
 
-  // middleware for creating new user
-  createUser : (req, res, next) => {
+  // middleware for creating new user at signup
+  signup: (req, res, next) => {
+    const { username, password, email, dob } = req.body;
     User.create({
-      username: req.body.username,
-      password: req.body.password,
-      
+      username,
+      password,
+      email,
+      dob
     }, (err, User) => {
       if (err){
-        next({
-          log:'did not create a user',
-          status: 400,
-          message: {err: 'no user created'}
-        })
+        // next({
+        //   log:'did not create a user',
+        //   status: 400,
+        //   message: {err: 'no user created'}
+        // })
+        return next();
+
       } else {
         console.log('created user')
-        res.locals.User = User;
+        res.locals.newUser = User;
         next()
       }
 
@@ -51,6 +55,25 @@ const controller = {
     })
   },
 
+  // query all of user's med list at successful login
+  getMedlist: (req, res, next) => {
+    // query med list of user via medlist property of user schema? 
+    User.find(
+      { username: req.params.username },
+      (err, User) => {
+        if (err) {
+          return next({
+            log: 'Error in getMedlist middleware',
+            status: 400,
+            message: {err: 'No medlist with this username'}
+          })
+        } else {
+          res.locals.medlist = User.medlist
+        }
+      }
+    )
+  },
+  
   testGet : (req, res, next) => {
     User.find({
   
@@ -69,22 +92,21 @@ const controller = {
     })
   },
 
-  testPOST: (req, res, next) => {
-    User.findOne({
-      username: req.body.username,
-      password: req.body.password
-
-    }, (err, User) => {
+  testPOST : (req, res, next) => {
+    // console.log(req.body)
+    const { username, password } = req.body;
+    User.findOne({username, password}
+    , (err, User) => {
       if (err) {
-        next({
+        return next({
           log: 'could not find user',
           status: 400,
           message: { err: 'no user found' }
-        })
+        });
       } else {
-        console.log('found user')
+        // console.log('found user')
         res.locals.foundUser = User;
-        next();
+        return next();
       }
 
     })

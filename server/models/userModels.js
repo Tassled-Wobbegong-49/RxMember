@@ -6,9 +6,9 @@ const Schema = mongoose.Schema
 // const bcrypt = require('bcryptjs');
 
 const userSchema = new Schema({
-  _id: Schema.Types.ObjectId,
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  // _id: Schema.Types.ObjectId,
+  username: { type: String, required: [true, "Username is required"], unique: true },
+  password: { type: String, required: [true, "Username is required"]},
   email: { type: String, required: true, unique: true }, // require @?
   dob: { type: Number, required: true },
   medList: {type: Schema.Types.ObjectId, ref: 'medModel'} // reference medModel 
