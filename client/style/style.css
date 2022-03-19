@@ -75,3 +75,12 @@ label {
   display: flex;
   flex-direction: column;
 }
+
+.weekContainer {
+  display: flex;
+}
+
+.dayContainer {
+  border: 1px solid black;
+  padding: 1em;
+}

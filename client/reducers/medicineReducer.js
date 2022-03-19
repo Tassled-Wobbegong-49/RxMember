@@ -17,10 +17,25 @@ const initialState = {
   }
 };
 
-// export const getMedicineCardList = "getMedicineCardList";
-// export const addNewMedicineCard = "addNewMedicineCard";
-// export const updateMedicineCard = "updateMedicineCard";
-// export const deleteMedicineCard = "deleteMedicineCard";
+// {
+//   user: username,
+//   password: password,
+//   email: email,
+//   DOB: DOB,
+//   medList: [
+//     med1: {
+//       name,
+//       dosage,
+//       purchaseDate,
+//       exp,
+//       refill,
+//       doctor,
+//       notes
+//     },
+//     ...,
+//   ]
+// }
+
 
 // DECLARE REDUCER FUNCTION
 const medicineReducer = (state = initialState, action) => {
@@ -28,6 +43,28 @@ const medicineReducer = (state = initialState, action) => {
 
   switch (action.type) {
     
+    // export const createNewUser = "createNewUser";
+    // export const loginUser = "loginUser";
+
+    case type.createNewUser: 
+      fetch("http://localhost:3000/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type" : "application/json"
+          },
+          body: JSON.stringify({
+            user: action.payload // payload is action.payload = { username, password, email, DOB }
+          })
+        })
+        .then(() => {
+          // send them to home calendar page
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
+
+
     case type.getMedicineCardList: 
       // GET REQUEST TO SERVER TO GRAB THE USER'S MEDICATION LIST 
       fetch("http://localhost:3000/", {
@@ -39,40 +76,19 @@ const medicineReducer = (state = initialState, action) => {
           user: action.payload // payload is user
         })
       })
-      {
-        user: username,
-        password: password,
-        email: email,
-        DOB: DOB,
-        medList: [
-          med1: {
-            name,
-            dosage,
-            purchaseDate,
-            exp,
-            refill,
-            doctor,
-            notes
-          },
-          med2: {
-            name,
-            dosage,
-          }
-        ]
-      }
       .then((data) => data.json())
-      .then(() => {
-        newMedicineList = data.list 
+      .then((data) => {
+        newMedicineList = data.medList // array of objects
         return {
           ...state,
-          user: action.payload,
+          user: action.payload, // initial time state updated wtih user (when page first loads after login)
           medicineList: newMedicineList
         }
       })
       .catch((error) => console.log(error));
 
-
-    case type.addNewMedicineCard: // this action object has payload
+    case type.addNewMedicineCard: 
+      // GET REQUEST TO SERVER TO GRAB THE USER'S MEDICATION LIST 
       // send POST request to server to add medicine DB
         // if medicine is unique (no error)
           // grab all the medicine for user from DB

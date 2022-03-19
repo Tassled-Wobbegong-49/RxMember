@@ -6,6 +6,8 @@ import * as types from '../constants/actionTypes.js';
 // export const updateMedicineCard = "updateMedicineCard";
 // export const deleteMedicineCard = "deleteMedicineCard";
 // export const getMedicineCardList = "getMedicineCardList";
+// export const createNewUser = "createNewUser";
+// export const loginUser = "loginUser";
 
 // adding AC to the end so we can distinguish Action Creators from Action Types
 
@@ -29,3 +31,12 @@ export const deleteMedicineCardAC = (data) => ({
   payload: data // data is an object
 });
 
+export const createNewUserAC = (data) => ({
+  type: types.createNewUser,
+  payload: data // data is object with { username, password, email, DOB }
+});
+
+export const loginUserAC = (data) => ({
+  type: types.loginUser,
+  payload: data // data is object with { username, password }
+});
