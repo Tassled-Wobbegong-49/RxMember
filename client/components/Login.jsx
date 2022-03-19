@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom'
 
 
 const Login = (props) => {
@@ -13,7 +13,9 @@ const Login = (props) => {
         <label></label>
         <input type="text"/>
       </div>
-      <button>Login</button>
+      <Link to="/nav" >
+        <button>Login</button>
+      </Link>
     </div>
   )
 

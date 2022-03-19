@@ -6,14 +6,17 @@ const Nav = (props) => {
     <nav>
         <h3>logo</h3>
       <ul className="nav-links">
-        <Link to='/signup' style={{textDecoration: 'none'}}>
-          <li>signup</li>
-        </Link>
-        <Link to='/login' style={{textDecoration: 'none'}}>
-          <li>login</li>
-        </Link>
         <Link to='/medications' style={{textDecoration: 'none'}}>
           <li>MedList</li>
+        </Link>
+        <Link to='/day' style={{textDecoration: 'none'}}>
+          <li>Day</li>
+        </Link>
+        <Link to='/week' style={{textDecoration: 'none'}}>
+          <li>Week</li>
+        </Link>
+        <Link to='/month' style={{textDecoration: 'none'}}>
+          <li>Month</li>
         </Link>
       </ul>
     </nav>
