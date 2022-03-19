@@ -31,20 +31,24 @@ app.get('/', (req, res) => {
 // });
 
 //
-
-//get route for testing server
-app.post('/', controller.testPOST, (req, res) => {
+app.get('/all', testGet, (req, res) => {
   res.send(res.locals.foundUser);
 })
 
-// when redirected to calendar, respond to GET req and serve ALL med list for that user
+//get route for testing server
+app.post('/', controller.verifyLogIn, (req, res) => {
+  res.json('user verified');
+})
 
+// when redirected to calendar, respond to GET req and serve ALL med list for that user
+app.get('/calendar')
 // respond to POST req for new medicine 
 app.post('/addcard')
 // respond to PUT req for updating med info
 app.put('/updatecard')
 // respond to DELETE req for deleting med 
 app.delete('/deletecard')
+
 
 
 

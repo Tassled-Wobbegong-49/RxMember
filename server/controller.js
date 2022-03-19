@@ -25,10 +25,7 @@ const controller = {
         res.locals.foundUser = User;
         next();
       }
-
     })
-    res.locals.test = 'test';
-    next();
   },
 
   // middleware for creating new user
@@ -55,10 +52,8 @@ const controller = {
   },
 
   testGet : (req, res, next) => {
-    User.findOne({
-      username: 'Hello',
-      password: 'world',
-
+    User.find({
+  
     }, (err, User) => {
       if (err){
         next({
@@ -71,7 +66,6 @@ const controller = {
         res.locals.foundUser = User;
         next();
       }
-
     })
   },
 

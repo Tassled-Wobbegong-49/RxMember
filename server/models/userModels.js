@@ -11,7 +11,7 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   email: { type: String, required: true, unique: true }, // require @?
   dob: { type: Number, required: true },
-  medList: {type: Schema.Types.ObjectID, ref: 'medModel'} // reference medModel 
+  medList: {type: Schema.Types.ObjectId, ref: 'medModel'} // reference medModel 
 });
 
 module.exports = mongoose.model('User', userSchema);
