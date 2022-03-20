@@ -1,4 +1,5 @@
-const User = require('./models/userModels')
+const User = require('./models/userModels');
+const Med = require('./models/medModel');
 
 const controller = {
 
@@ -55,6 +56,32 @@ const controller = {
     })
   },
 
+  // add medication to user's med document
+  addMed: (req, res, next) => {
+    // logic with req.params.username
+    const { username } = req.params;
+    const { name, dosage, purchaseDate, exp, refill, doctor, notes } = req.body;
+    User.findOne({ username }, () => {
+      Med.create({ name, dosage, purchaseDate, exp, refill, doctor, notes },
+        (err, med) => {
+          if (err) {
+            return next({
+              log: 'Error in addMed middleware',
+              status: 400,
+              message: { err: 'medication cannot be added' }
+            });
+            // return next(); // handle error by informing user error with adding med
+          } else {
+            res.locals.med = med;
+            return next();
+          }
+        }
+      )
+    }
+    )
+
+  },
+
   // query all of user's med list at successful login
   getMedlist: (req, res, next) => {
     // query med list of user via medlist property of user schema? 
@@ -73,7 +100,7 @@ const controller = {
       }
     )
   },
-  
+  // middleware for grabbing all users from db
   testGet : (req, res, next) => {
     User.find({
   

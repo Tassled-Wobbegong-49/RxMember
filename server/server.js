@@ -13,7 +13,7 @@ mongoose.connect(MONGO_URI);
 app.use(express.json());
 app.use(express.urlencoded());
 
-//WTH WHY DOESN'T THIS WORK THO??
+//WTH DOESN'T THIS WORK THO??
 app.use(express.static(__dirname + '/client/index.html'));
 // app.use('/build', express.static(path.join(__dirname, '../build')));
 //app.use(express.static(__dirname + '/public'))
@@ -35,7 +35,6 @@ app.post('/', controller.verifyLogIn, (req, res) => {
   }
 });
 
-
 // redirected to sign up 
 app.post('/signup', controller.signup, (req, res) => {
   if (res.locals.newUser){
@@ -47,10 +46,20 @@ app.post('/signup', controller.signup, (req, res) => {
 // when redirected to calendar, respond to GET req and serve ALL med list for that user
 app.get('/calendar', (req, res) => {
   res.status(200).send(`all of user's medlist`)
+  // https://dev.to/singhanuj620/mongoose-populate-in-most-simple-way-how-to-import-a-collection-into-another-schema-in-mongodb-4nnf
+  // User.find(username?).populate("Med").exec((err, result) => {
 })
+
 // respond to POST req for new medicine 
-app.post('/addcard', (req, res) => {
-  res.status(200).send('new card')
+app.post('/addcard/:username', controller.addMed, (req, res) => {
+  if (res.locals.med){
+    console.log(res.locals.User);
+    // res.locals.User.medlist.push(res.locals.med)
+    res.status(200).send(res.locals.med)
+
+  } else {
+    res.status(400).send('error in adding medicine')
+  }
 })
 // respond to PUT req for updating med info
 app.put('/updatecard', (req, res) => {
