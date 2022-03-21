@@ -5,56 +5,91 @@ const fs = require('fs');
 const PORT = 3000;
 const controller = require('./controller')
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const MONGO_URI = `mongodb+srv://Dsin16:pDP9dnI3xhDhuzs3@cluster0.z0jzl.mongodb.net/Cluster0?retryWrites=true&w=majority`
 
 mongoose.connect(MONGO_URI);
 
+// test
+app.set('view engine', 'ejs');
+
 app.use(express.json());
 app.use(express.urlencoded());
 
-//WTH WHY DOESN'T THIS WORK THO??
-app.use(express.static(__dirname + '/client/index.html'));
-// app.use('/build', express.static(path.join(__dirname, '../build')));
-//app.use(express.static(__dirname + '/public'))
+// added from authentication unit
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// serving dist
+app.use('/calendar', express.static(path.resolve(__dirname, '../dist')));
+
+// grab CSS for static
+app.use('/style/loginSignup.css', express.static(path.join(__dirname, '../client/style/loginSignup.css')));
+app.use('/images/Logo.jpg', express.static(path.join(__dirname, '../client/images/Logo.jpg')));
 
 // page on initial load = log-in page
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/index.html'))
+//   res.sendFile(path.resolve(__dirname, '../client/login.ejs'))
+// });
+// testing EJS 
+res.render(path.resolve(__dirname, '../client/login.ejs'))
 });
+
+app.get('/signup', (req, res) => {
+  res.render(path.resolve(__dirname, '../client/signup.ejs'))
+  // res.sendFile(path.resolve(__dirname, '../client/signup.ejs'))
+});
+
 
 // respond to POST request with log-in info
-app.post('/', controller.verifyLogIn, (req, res) => {
+app.post('/login', controller.verifyLogIn, (req, res) => {
   // if login returned from db is not null, send back 'successful login'
+  console.log('REQUEST BODY', req.body)
+  console.log('WHATS COME BACK', res.locals.foundUser)
+
   if (res.locals.foundUser){
-    res.status(200).send('login successful')
-    //res.redirect('/calendar') // calendar page !!!!!!!!!!!!'
+    console.log('INSIDE TRUTHY CONDITIONAL', res.locals.foundUser);
+    // res.status(200).send('login successful')
+
+    res.status(200).redirect('/calendar') // calendar page !!!!!!!!!!!!' redirect??
+    // res.status(200).redirect('/calendar/').send(res.locals.foundUser.username) // calendar page !!!!!!!!!!!!' redirect??
     // console.log('working from post verifyLogin')
   } else {
-    res.status(400).send('login unsuccessful/redirect to login')
+    console.log('INSIDE FALSY')
+    res.status(400).redirect('./signup');
+     //res.status(400).send('login unsuccessful/redirect to login')
   }
 });
-
 
 // redirected to sign up 
 app.post('/signup', controller.signup, (req, res) => {
   if (res.locals.newUser){
     res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'))
     } else {
-      res.status(400).send('send back to sign up page') // signup page !!!!!!!!!!!!
+      res.status(400).redirect('./signup') // signup page !!!!!!!!!!!!
     }
 })
-// when redirected to calendar, respond to GET req and serve ALL med list for that user
-app.get('/calendar', (req, res) => {
-  res.status(200).send(`all of user's medlist`)
+// when redirected to calendar, respond to POST req and serve ALL med list for that user
+app.post('/calendar', controller.getMedlist, (req, res) => {
+  res.status(200).send(res.locals.medList);
+  // https://dev.to/singhanuj620/mongoose-populate-in-most-simple-way-how-to-import-a-collection-into-another-schema-in-mongodb-4nnf
+  // User.find(username?).populate("Med").exec((err, result) => {
 })
+
 // respond to POST req for new medicine 
-app.post('/addcard', (req, res) => {
-  res.status(200).send('new card')
-})
-// respond to PUT req for updating med info
-app.put('/updatecard', (req, res) => {
-  res.status(200).send('updated card')
+// app.post('/addcard', controller.addMed, (req, res) => {
+//   if (res.locals.med){
+//     console.log(res.locals.med);
+//     // res.locals.User.medlist.push(res.locals.med)
+//     res.status(200).send(res.locals.med);
+
+//   } else {
+//     res.status(400).send('error in adding medicine')
+//   }
+// })
+// respond to PUT/PATCH req for updating med info
+app.patch('/updatecard/:username/:name', controller.updateMed, (req, res) => {
+  res.status(200).send(res.locals.med)
 })
 // respond to DELETE req for deleting med 
 app.delete('/deletecard')

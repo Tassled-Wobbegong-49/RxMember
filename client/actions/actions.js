@@ -11,9 +11,9 @@ import * as types from '../constants/actionTypes.js';
 
 // adding AC to the end so we can distinguish Action Creators from Action Types
 
-export const getMedicineCardListAC = (user) => ({
+export const getMedicineCardListAC = (data) => ({
   type: types.getMedicineCardList,
-  payload: user
+  payload: data // data = { user, password }
 });
 
 export const addNewMedicineCardAC = (data) => ({
