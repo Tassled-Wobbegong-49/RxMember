@@ -1,30 +1,79 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { connect } from 'react-redux';
 import Nav from '../components/Nav.jsx';
-import * as actions from '../constants/actionTypes.js';
+import * as actions from '../actions/actions.js';
+import CardHeadings from '../components/CardHeadings.jsx';
 import MedicineCard from '../components/MedicineCard.jsx';
 import AddMedicine from '../components/AddMedicine.jsx';
 
 // MAP WHAT STATE PROPERTIES WE WANT TO PASS DOWN PASS DOWN
-const mapStateToProps = state => {
-  return {
-
-  } 
-};
+const mapStateToProps = state => ({
+  user: state.reducer.user,
+  medList: state.reducer.medList
+});
 
 // MAP WHAT DISPATCH/ACTION CREATORS WE WANT TO PASS DOWN
-const mapDispatchToProps = dispatch => {
-  return {
+const mapDispatchToProps = dispatch => ({
+  addCard: (data) => {
+    dispatch(actions.addNewMedicineAC(data));
+  },
+  // updateCard: (data) => {
+  //   dispatch(actions.updateCardAC(data));
+  // },
+  // deleteCard: (medicineName) => {
+  //   dispatch(actions.deleteCardAC(medicineName))
+  // }
+});
 
-  } 
-};
+class MedicineContainer extends Component {
+  constructor(props) {
+    super(props);
 
-const MedicineContainer = (props) => {
+    // bind all onclick methods this.method = this.method.bind(this)
+  }
 // RENDER MEDICINE CARDS
+  render() {
 
-// RENDER ADD MEDICINES 
+    // loop through medList (from state) to render all medicine cards
+    const cardList = [];
+    for (let i=0; i < /*this.props.medList*/5; i++) {
+      cardList.push(<MedicineCard 
+        user={this.props.user} 
+        // medicineName={this.props.medList[i].medicineName} 
+        // dosage={this.props.medList[i].dosage} 
+        // expirationDate={this.props.medList[i].expirationDate} 
+        // refillDate={this.props.medList[i].refillDate} 
+        // purchaseDate={this.props.medList[i].purchaseDate} 
+        // doctorContact={this.props.medList[i].doctorContact} 
+        // notes={this.props.medList[i].notes} 
+        updateCard={this.props.updateCard} 
+        deleteCard={this.props.deleteCard} 
+        key={i}/>)
+    }
+
+    return (
+      <main>
+        <CardHeadings/>
+        { cardList }
+        {/* <MedicineCard
+          // user={this.props.user}
+          // updateCard={this.props.updateCard}
+          // deleteCard={this.props.deleteCard}
+        /> */}
+        <AddMedicine 
+          // user={this.props.user}
+          // addCard={this.props.addCard}
+        />
+      </main>  
+    )
+  }
+
+  // add card on click method
+  // update card on click method. Editable fields on click? pop up modal?
+  // delete card on click function. Are you sure prompt?
 
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MedicineContainer);
+// export default MedicineContainer;

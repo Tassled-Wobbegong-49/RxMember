@@ -5,35 +5,16 @@ import * as type from '../constants/actionTypes.js'
 const initialState = {
   user: {}, // object with username and email
   medicineList: [], // array of objects
-  medicineCard: {
-    medicineName: "",
-    dosage: "",
-    purchaseDate, // date.now inputted upon user pressing submit
-    expirationDate: "", // date.now + (x days in milliseconds)
-    refillDate: "", // date.now + exp date - date.now
-    doctorContact: "", // user input string?
-    notes: "" // user input string
-  }
+  // medicineCard: {
+  //   medicineName: "",
+  //   dosage: "",
+  //   purchaseDate, // date.now inputted upon user pressing submit
+  //   expirationDate: "", // date.now + (x days in milliseconds)
+  //   refillDate: "", // date.now + exp date - date.now
+  //   doctorContact: "", // user input string?
+  //   notes: "" // user input string
+  // }
 };
-
-// {
-//   user: username,
-//   password: password,
-//   email: email,
-//   DOB: DOB,
-//   medList: [
-//     med1: {
-//       medicineName: "",
-//       dosage: "",
-//       purchaseDate, // date.now inputted upon user pressing submit
-//       expirationDate: "", // date.now + (x days in milliseconds)
-//       refillDate: "", // date.now + exp date - date.now
-//       doctorContact: "", // user input string?
-//       notes: "" // user input string
-//     },
-//     ...,
-//   ]
-// }
 
 
 // DECLARE REDUCER FUNCTION
@@ -76,41 +57,72 @@ const medicineReducer = (state = initialState, action) => {
         // create alert to client of input errors?
       })
 
-    // export const getMedicineCardList = "getMedicineCardList";
+    case type.getMedicineCardList: // on load on the calendar page
+      fetch("http://localhost:3000/all", {
+        method: "GET",
+        headers: {
+          "Content-Type" : "application/json"
+        }
+      })
+      .then((data) => data.json())
+      .then((data) => {
+        newMedicineList = data.medList // array of objects
+        return {
+          user: data.user, // initial time state updated wtih user (when page first loads after login)
+          medicineList: newMedicineList
+        }
+      })
+      .catch((error) => console.log(error));
+
+
     // export const addNewMedicineCard = "addNewMedicineCard";
     // export const updateMedicineCard = "updateMedicineCard";
     // export const deleteMedicineCard = "deleteMedicineCard";
 
-    case type.getMedicineCardList: 
-      // GET REQUEST TO SERVER TO GRAB THE USER'S MEDICATION LIST 
-      fetch("http://localhost:3000/", {
-        method: "GET",
+    // endpoint /addcard
+
+    // const initialState = {
+    //   user: {}, // object with username and email
+    //   medicineList: [] // array of objects
+    // };
+
+    case type.addNewMedicineCard: 
+      fetch("http://localhost:3000/addcard", {
+        method: "POST",
         headers: {
-          "Content-Type" : "application/json"
+          "Content-Type" : "application/json" 
         },
         body: JSON.stringify({
-          user: action.payload // payload is user
+          user: action.payload // payload = { username, medicineName, dosage, purchaseDate, expirationDate, refillDate, doctorContact, notes }
         })
       })
       .then((data) => data.json())
       .then((data) => {
         newMedicineList = data.medList // array of objects
         return {
-          ...state,
-          user: action.payload, // initial time state updated wtih user (when page first loads after login)
+          ...state, 
           medicineList: newMedicineList
         }
       })
-      .catch((error) => console.log(error));
 
-    case type.addNewMedicineCard: 
-      // GET REQUEST TO SERVER TO GRAB THE USER'S MEDICATION LIST 
-      // send POST request to server to add medicine DB
-        // if medicine is unique (no error)
-          // grab all the medicine for user from DB
-            // update medicineList array for user, which re-renders Medicine Page
-        // else (medicine is not unique (error))
-          // alert message to client?
+// {
+//   user: username,
+//   password: password,
+//   email: email,
+//   DOB: DOB,
+//   medList: [
+//     med1: {
+//       medicineName: "",
+//       dosage: "",
+//       purchaseDate, // date.now inputted upon user pressing submit
+//       expirationDate: "", // date.now + (x days in milliseconds)
+//       refillDate: "", // date.now + exp date - date.now
+//       doctorContact: "", // user input string?
+//       notes: "" // user input string
+//     },
+//     ...,
+//   ]
+// }
 
     case type.updateMedicineCard: // this action object has payload
       // send DELETE request to server 

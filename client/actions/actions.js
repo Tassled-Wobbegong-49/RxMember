@@ -18,7 +18,7 @@ export const getMedicineCardListAC = (user) => ({
 
 export const addNewMedicineAC = (data) => ({
   type: types.addNewMedicineCard,
-  payload: data // data is an object
+  payload: data // data is an payload = { username, medicineName, dosage, purchaseDate, expirationDate, refillDate, doctorContact, notes }
 });
 
 export const updateMedicineCardAC = (data) => ({

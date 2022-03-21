@@ -10,13 +10,13 @@ import AddMedicine from './components/addMedicine.jsx';
 import Day from './components/Day.jsx';
 import Week from './components/Week.jsx';
 import Month from './components/Month.jsx';
+import MedicineContainer from './containers/MedicineContainer.jsx';
 // import CalendarContainer from './containers/CalendarContainer.jsx';
 
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {};
+  constructor(props) {
+    super(props);
   }
   
 
@@ -26,7 +26,8 @@ class App extends Component {
         <div className="App">
           <Nav/>
           <Routes>
-            <Route path="/medications" element={<> <CardHeadings/><MedicineCard/><AddMedicine/> </>}/>
+            {/* <Route path="/medications" element={<> <CardHeadings/><MedicineCard/><AddMedicine/> </>}/> */}
+            <Route path="/medications" element={<> <MedicineContainer/> </>}/>
             <Route path="/day" element={<Day/>}/>
             <Route path="/week" element={<Week/>}/>
             <Route path="/month" element={<Month/>}/>
