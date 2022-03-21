@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import Logo2 from '../images/Logo2.jpg'
+
 
 const Nav = (props) => {
   return (
     <nav>
-        <h3>logo</h3>
+        <img className="logo" src={Logo2} alt="RxMember Logo"/>
       <ul className="nav-links">
         <Link to='/medications' style={{textDecoration: 'none'}}>
           <li>MedList</li>

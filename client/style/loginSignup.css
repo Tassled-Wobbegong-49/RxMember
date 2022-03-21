@@ -1,8 +1,49 @@
 
+body {
+  background-color: white
+}
+
+.mainContainer {
+  background-color: white;
+  width: 75%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
 .form {
+  padding-top: 1em;
+  display: flex;
+  flex-direction: column;
   border: 3px solid #f1f1f1;
   font-size: large;
   font-family: arial;
+}
+
+
+.form-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 2em;
+}
+
+.form-row > label {
+  flex: 1;
+  padding-right: 0.5em;
+}
+
+.form-row > input {
+  flex: 4;
+  margin-right: 3em;
 }
 
 .input {
@@ -15,11 +56,33 @@
 }
 
 .button {
-  background-color: rgb(86, 86, 230); 
+  align-self: center;
+  width: 25%;
+  background-color: rgb(118, 189, 124); 
   border: none;
   color: white;
   padding: 15px 15px;
   text-align: center;
   font-size: 15px;
   font-weight: bold;
+  border-radius: 0.5em;
+  transition: 300ms;
+}
+
+.button:hover {
+  background-color: rgb(2, 172, 16);
+
+}
+
+
+h2 {
+  font-family: arial;
+  font-size: medium
+}
+
+#OAuth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 1em;
 }

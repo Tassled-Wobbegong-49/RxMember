@@ -8,35 +8,38 @@
   <title>Sign-Up Page</title>
 </head>
 <body>
-  
-  <h1>Please fill out the following: </h1>
+  <main class="mainContainer">
+  <h1> <img src="./images/Logo.jpg" alt="RxMember Logo"> </h1>
+  <h2>Please fill out the following: </h2>
 
   <form class="form" action="POST">
-    <div class="username-field">
+    <div class="form-row" class="username-field">
       <label>Username: </label>
       <input class="input" type="text">
     </div>
-    <div class="password-field">
+    <div class="form-row" class="password-field">
       <label>Password: </label>
       <input class="input" type="text">
     </div>
-    <div className="email-field">
+    <div class="form-row" class="email-field">
       <label>Email: </label>
       <input class="input" type="text"/>
     </div>
-    <div className="DOB-field">
+    <div class="form-row" class="DOB-field">
       <label>Date of Birth: </label>
       <input class="input" type="text"/>
     </div>
-    
+    <p></p>
     <button class="button">Sign Up</button>
-
+    <p></p>
     <div id="OAuth">
       <div>Sign in with <a href="www.google.com">Google</a></div>
       <div>Sign in with <a href="www.facebook.com">Facebook</a></div>
     </div>
+
   </form>
 
+</main>
 
 
 
