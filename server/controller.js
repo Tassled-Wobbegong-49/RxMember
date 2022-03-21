@@ -49,10 +49,8 @@ const controller = {
       } else {
         console.log('created user')
         res.locals.newUser = User;
-        next()
+        next();
       }
-
-
     })
   },
 
@@ -61,22 +59,57 @@ const controller = {
     // logic with req.params.username
     const { username } = req.params;
     const { name, dosage, purchaseDate, exp, refill, doctor, notes } = req.body;
-    User.findOne({ username }, () => {
-      Med.create({ name, dosage, purchaseDate, exp, refill, doctor, notes },
-        (err, med) => {
-          if (err) {
-            return next({
-              log: 'Error in addMed middleware',
-              status: 400,
-              message: { err: 'medication cannot be added' }
-            });
-            // return next(); // handle error by informing user error with adding med
-          } else {
-            res.locals.med = med;
-            return next();
-          }
-        }
-      )
+    console.log('req.body', req.body);
+    console.log('username', username);
+
+    // User.findOne({username}, ).insertMany(medList.$[medList.lenght-1]: name, dosage,,,,)
+
+    User.findOneAndUpdate(
+      // condition to find
+      { username },
+      // what we want to update
+      // { $inc: { shipment: 1 } }
+      { $push: { medList: { name, dosage, purchaseDate, exp, refill, doctor, notes }} },
+      // { dob: '01/01/0101'}, // returns new username with updated dob
+      // option of upserting and returning updated/created document
+      { upsert: true, new: true },
+      // callback function
+      (err, med) => {
+        if (err) {
+          console.log('err', err);
+          console.log('med', med);
+          return next({
+            log: 'Error in addMed middleware',
+            status: 400,
+            message: { err: 'medication cannot be added' }
+          });
+          // return next(); // handle error by informing user error with adding med
+        } else {
+          console.log('user\'s updated document with added med!!!!!!!!!!', med)
+          res.locals.med = med;
+          return next();
+      }
+      
+      
+      
+      
+      
+    //   { username }, () => {
+    //   Med.create({ name, dosage, purchaseDate, exp, refill, doctor, notes },
+    //     (err, med) => {
+    //       if (err) {
+    //         return next({
+    //           log: 'Error in addMed middleware',
+    //           status: 400,
+    //           message: { err: 'medication cannot be added' }
+    //         });
+    //         // return next(); // handle error by informing user error with adding med
+    //       } else {
+    //         res.locals.med = med;
+    //         return next();
+    //       }
+    //     }
+    //   )
     }
     )
 
@@ -85,7 +118,7 @@ const controller = {
   // query all of user's med list at successful login
   getMedlist: (req, res, next) => {
     // query med list of user via medlist property of user schema? 
-    User.find(
+    User.findOne(
       { username: req.params.username },
       (err, User) => {
         if (err) {
@@ -95,11 +128,52 @@ const controller = {
             message: {err: 'No medlist with this username'}
           })
         } else {
-          res.locals.medlist = User.medlist
+          // console.log('User', User);
+          // console.log('Usermedlist', User.medList);
+          // console.log('res.locals!!!!!!!!!!!!', res.locals);
+          res.locals.medList = User.medList;
+          return next();
         }
       }
     )
   },
+
+  // udpate med
+  updateMed: (req, res, next) => {
+    const { username } = req.params;
+    // const { name, dosage, purchaseDate, exp, refill, doctor, notes } = req.body;
+    const filteredObj = {};
+    const filtered = [name, dosage, purchaseDate, exp, refill, doctor, notes];
+    
+    for (let i = 0; i < filtered.length; i++){
+      if (filtered[i]){
+        filteredObj[filtered[i]] = filtered[i].req.body
+      }
+    }
+    const keys = Object.keys(filteredObj) // [name, dosage]
+    User.findOneAndUpdate(
+      { username , "medList": keys},
+
+      { $set: {"medList.$" : [filteredObj] }},
+
+      { new: true},
+      (err, med) => {
+        if (err) {
+         
+          return next({
+            log: 'Error in updateMed middleware',
+            status: 400,
+            message: { err: 'medication cannot be updated' }
+          });
+          
+        } else {
+          res.locals.med = med;
+          return next();
+      }}
+      
+    )
+  },
+
   // middleware for grabbing all users from db
   testGet : (req, res, next) => {
     User.find({

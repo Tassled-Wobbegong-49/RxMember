@@ -13,7 +13,8 @@ const userSchema = new Schema({
   password: { type: String, required: [true, "Username is required"]},
   email: { type: mongoose.SchemaTypes.Email, required: true, unique: true }, 
   dob: { type: Date, required: true },
-  medList:[{type: Schema.Types.ObjectId, ref: 'Med'}] // reference medModel 
+  medList: {type: Array}
+  // medList:[{type: Schema.Types.ObjectId, ref: 'Med'}] // reference medModel 
 });
 
 module.exports = mongoose.model('User', userSchema);
