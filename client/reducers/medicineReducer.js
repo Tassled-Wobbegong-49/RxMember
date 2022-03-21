@@ -1,7 +1,6 @@
 import * as type from '../constants/actionTypes.js'
 // DECIDE WHICH FETCH MODULE WE WILL USE
 
-
 // DECLARE INITIAL STATE
 const initialState = {
   user: {}, // object with username and email
@@ -24,13 +23,13 @@ const initialState = {
 //   DOB: DOB,
 //   medList: [
 //     med1: {
-//       name,
-//       dosage,
-//       purchaseDate,
-//       exp,
-//       refill,
-//       doctor,
-//       notes
+//       medicineName: "",
+//       dosage: "",
+//       purchaseDate, // date.now inputted upon user pressing submit
+//       expirationDate: "", // date.now + (x days in milliseconds)
+//       refillDate: "", // date.now + exp date - date.now
+//       doctorContact: "", // user input string?
+//       notes: "" // user input string
 //     },
 //     ...,
 //   ]
@@ -42,28 +41,45 @@ const medicineReducer = (state = initialState, action) => {
   let newMedicineList;
 
   switch (action.type) {
-    
-    // export const createNewUser = "createNewUser";
-    // export const loginUser = "loginUser";
 
-    case type.createNewUser: 
+    case type.createNewUser: // on signup page
       fetch("http://localhost:3000/signup", {
           method: "POST",
           headers: {
             "Content-Type" : "application/json"
           },
           body: JSON.stringify({
-            user: action.payload // payload is action.payload = { username, password, email, DOB }
+            user: action.payload // payload = { username, password, email, DOB }
           })
-        })
-        .then(() => {
-          // send them to home calendar page
-        })
-        .catch((error) => {
-          console.log(error);
-        })
+      })
+        // if no errors client shoudl be redirected by server to calendar page
+        // send them to home calendar page
+      .catch((error) => {
+        console.log(error);
+        // create alert to client of input errors?
+      })
 
+    case type.loginUser: // on login page
+      fetch("http://localhost:3000/login", {
+          method: "POST",
+          headers: {
+            "Content-Type" : "application/json"
+          },
+          body: JSON.stringify({
+            user: action.payload // payload = { username, password }
+          })
+      })
+        // if no errors client shoudl be redirected by server to calendar page
+        // send them to home calendar page
+      .catch((error) => {
+        console.log(error);
+        // create alert to client of input errors?
+      })
 
+    // export const getMedicineCardList = "getMedicineCardList";
+    // export const addNewMedicineCard = "addNewMedicineCard";
+    // export const updateMedicineCard = "updateMedicineCard";
+    // export const deleteMedicineCard = "deleteMedicineCard";
 
     case type.getMedicineCardList: 
       // GET REQUEST TO SERVER TO GRAB THE USER'S MEDICATION LIST 
