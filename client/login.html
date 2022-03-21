@@ -5,31 +5,31 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./style/loginSignup.css">
-  <title>Sign-Up Page</title>
+  <title>Login Page</title>
 </head>
 <body>
   
-
-
-  
-  <form class="form" action="POST">
-    <div class="username-field">
-      <label>Username: </label>
-      <input class="input" type="text">
-    </div>
-    <div class="password-field">
-      <label>Password: </label>
-      <input class="input" type="text">
-    </div>
+  <main class="mainContainer">
+    <h1> <img src="./images/Logo.jpg" alt="RxMember Logo"> </h1>
     
-    <button class="button">Login</button>
-
-    <div id="OAuth">
-      <div>Login with <a href="www.google.com">Google</a></div>
-      <div>Login with <a href="www.facebook.com">Facebook</a></div>
-    </div>
-  </form>
-
+    <form class="form" method="POST" action="/login">
+      <div class="form-row">
+        <label>Username: </label>
+        <input class="input" type="text">
+      </div>
+      <div class="form-row">
+        <label>Password: </label>
+        <input class="input" type="text">
+      </div>
+      <p></p>
+      <button class="button">Login</button>
+      <p></p>
+      <div id="OAuth">
+        <div>Login with <a href="www.google.com">Google</a></div>
+        <div>Login with <a href="www.facebook.com">Facebook</a></div>
+      </div>
+    </form>
+  </main>
 
 </body>
 </html>
