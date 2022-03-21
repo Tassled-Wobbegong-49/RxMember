@@ -6,11 +6,6 @@ import SignUp from './components/SignUp.jsx'
 import styles from './style/style.css';
 import store from './store.js';
 
-// render(
-//   <App/>,
-//   document.getElementById('app')
-// );
-
 render(
   <Provider store={store}>
     <App/>

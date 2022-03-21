@@ -12,13 +12,16 @@ nav {
   background: lightgray;
   color: white;
 }
-
+.logo {
+  background-color: lightgray;
+}
 .nav-links {
   width: 25%;
   display: flex;
   justify-content: space-around;
   align-items: center;
   list-style: none;
+  font-weight: bold;
 }
 
 li {
@@ -50,12 +53,15 @@ li:hover {
 
 .headingCardBox {
   color: white;
+  font-weight: bold;
   flex-grow: 1;
   text-align: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
 }
 
 .cardBox {
-  border: 1px solid black;
+  border: 1px solid lightgray;
   flex-grow: 1;
   text-align: center;
 }

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import { connect } from 'react-redux';
-import Nav from '../components/Nav.jsx';
 import * as actions from '../actions/actions.js';
 import CardHeadings from '../components/CardHeadings.jsx';
 import MedicineCard from '../components/MedicineCard.jsx';
@@ -16,7 +14,7 @@ const mapStateToProps = state => ({
 // MAP WHAT DISPATCH/ACTION CREATORS WE WANT TO PASS DOWN
 const mapDispatchToProps = dispatch => ({
   addCard: (data) => {
-    dispatch(actions.addNewMedicineAC(data));
+    dispatch(actions.addNewMedicineCardAC(data));
   },
   // updateCard: (data) => {
   //   dispatch(actions.updateCardAC(data));
@@ -54,6 +52,10 @@ class MedicineContainer extends Component {
 
     return (
       <main>
+         <AddMedicine 
+          // user={this.props.user}
+          // addCard={this.props.addCard}
+        />
         <CardHeadings/>
         { cardList }
         {/* <MedicineCard
@@ -61,10 +63,7 @@ class MedicineContainer extends Component {
           // updateCard={this.props.updateCard}
           // deleteCard={this.props.deleteCard}
         /> */}
-        <AddMedicine 
-          // user={this.props.user}
-          // addCard={this.props.addCard}
-        />
+       
       </main>  
     )
   }
