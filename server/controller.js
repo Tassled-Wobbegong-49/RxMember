@@ -21,13 +21,19 @@ const controller = {
       } else {
     // 2) logic to check for match--if truthy, redirect to calendar; 
     // if username or password is falsy, redirect to log-in
-        console.log('found user')
-        // if username and password exist, proceed to following middleware
-        res.locals.foundUser = User;
+    // if username and password exist, proceed to following middleware
+    res.locals.foundUser = User;
+    console.log('found user', res.locals.foundUser)
         next();
       }
     })
   },
+
+// middleware for sending data 
+  // sendUserInfo: (req, res, next) => {
+  //   res.send(res.locals.foundUser.username);
+  //   next();
+  // },
 
   // middleware for creating new user at signup
   signup: (req, res, next) => {
@@ -57,7 +63,7 @@ const controller = {
   // add medication to user's med document
   addMed: (req, res, next) => {
     // logic with req.params.username
-    const { username } = req.params;
+    const { username } = req.body;
     const { name, dosage, purchaseDate, exp, refill, doctor, notes } = req.body;
     console.log('req.body', req.body);
     console.log('username', username);
@@ -119,7 +125,7 @@ const controller = {
   getMedlist: (req, res, next) => {
     // query med list of user via medlist property of user schema? 
     User.findOne(
-      { username: req.params.username },
+      { username: req.body.username },
       (err, User) => {
         if (err) {
           return next({
@@ -131,7 +137,8 @@ const controller = {
           // console.log('User', User);
           // console.log('Usermedlist', User.medList);
           // console.log('res.locals!!!!!!!!!!!!', res.locals);
-          res.locals.medList = User.medList;
+          // res.locals.medList = User.medList;
+          res.locals.medList = User;
           return next();
         }
       }

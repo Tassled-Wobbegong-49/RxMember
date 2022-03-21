@@ -11,10 +11,16 @@ const mapStateToProps = state => ({
   medList: state.reducer.medList
 });
 
+
+
+
 // MAP WHAT DISPATCH/ACTION CREATORS WE WANT TO PASS DOWN
 const mapDispatchToProps = dispatch => ({
-  addCard: (data) => {
-    dispatch(actions.addNewMedicineCardAC(data));
+  // addCard: (data) => {
+  //   dispatch(actions.addNewMedicineCardAC(data));
+  // },
+  getMedicineCardList: (data) => {
+    dispatch(actions.getMedicineCardListAC(data));
   },
   // updateCard: (data) => {
   //   dispatch(actions.updateCardAC(data));
@@ -35,16 +41,16 @@ class MedicineContainer extends Component {
 
     // loop through medList (from state) to render all medicine cards
     const cardList = [];
-    for (let i=0; i < /*this.props.medList*/5; i++) {
+    for (let i=0; i < this.props.medList; i++) {
       cardList.push(<MedicineCard 
         user={this.props.user} 
-        // medicineName={this.props.medList[i].medicineName} 
-        // dosage={this.props.medList[i].dosage} 
-        // expirationDate={this.props.medList[i].expirationDate} 
-        // refillDate={this.props.medList[i].refillDate} 
-        // purchaseDate={this.props.medList[i].purchaseDate} 
-        // doctorContact={this.props.medList[i].doctorContact} 
-        // notes={this.props.medList[i].notes} 
+        medicineName={this.props.medList[i].medicineName} 
+        dosage={this.props.medList[i].dosage} 
+        expirationDate={this.props.medList[i].expirationDate} 
+        refillDate={this.props.medList[i].refillDate} 
+        purchaseDate={this.props.medList[i].purchaseDate} 
+        doctorContact={this.props.medList[i].doctorContact} 
+        notes={this.props.medList[i].notes} 
         updateCard={this.props.updateCard} 
         deleteCard={this.props.deleteCard} 
         key={i}/>)
@@ -52,7 +58,10 @@ class MedicineContainer extends Component {
 
     return (
       <main>
-         <AddMedicine 
+        <label><input id="username" type="text" placeholder="username"/></label>
+        <label><input id="password" type="text" placeholder="password"/></label>
+        <button onClick={()=> {this.getInfo()}}>get info</button>
+        <AddMedicine 
           // user={this.props.user}
           // addCard={this.props.addCard}
         />
@@ -71,6 +80,17 @@ class MedicineContainer extends Component {
   // add card on click method
   // update card on click method. Editable fields on click? pop up modal?
   // delete card on click function. Are you sure prompt?
+  getInfo() {
+    let body ={};
+    body.username = document.getElementById('username').value;
+    // body.username = 'Hello';
+    // body.password = 'world';
+    console.log("body: ", body);
+    this.props.getMedicineCardList(body);
+    // })
+  }
+
+
 
 };
 

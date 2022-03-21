@@ -1,9 +1,9 @@
-import * as type from '../constants/actionTypes.js'
+import * as types from '../constants/actionTypes.js'
 // DECIDE WHICH FETCH MODULE WE WILL USE
 
 // DECLARE INITIAL STATE
 const initialState = {
-  user: {}, // object with username and email
+  username: {}, // object with username and email
   medicineList: [], // array of objects
   // medicineCard: {
   //   medicineName: "",
@@ -23,56 +23,64 @@ const medicineReducer = (state = initialState, action) => {
 
   switch (action.type) {
 
-    case type.createNewUser: // on signup page
-      fetch("http://localhost:3000/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type" : "application/json"
-          },
-          body: JSON.stringify({
-            user: action.payload // payload = { username, password, email, DOB }
-          })
-      })
-        // if no errors client shoudl be redirected by server to calendar page
-        // send them to home calendar page
-      .catch((error) => {
-        console.log(error);
-        // create alert to client of input errors?
-      })
+    // case types.createNewUser: // on signup page
+    //   fetch("http://localhost:3000/signup", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type" : "application/json"
+    //       },
+    //       body: JSON.stringify({
+    //         user: action.payload // payload = { username, password, email, DOB }
+    //       })
+    //   })
+    //     // if no errors client shoudl be redirected by server to calendar page
+    //     // send them to home calendar page
+    //   .catch((error) => {
+    //     console.log(error);
+    //     // create alert to client of input errors?
+    //   })
 
-    case type.loginUser: // on login page
-      fetch("http://localhost:3000/login", {
-          method: "POST",
-          headers: {
-            "Content-Type" : "application/json"
-          },
-          body: JSON.stringify({
-            user: action.payload // payload = { username, password }
-          })
-      })
-        // if no errors client shoudl be redirected by server to calendar page
-        // send them to home calendar page
-      .catch((error) => {
-        console.log(error);
-        // create alert to client of input errors?
-      })
+    // case types.loginUser: // on login page
+    //   fetch("http://localhost:3000/login", {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type" : "application/json"
+    //       },
+    //       body: JSON.stringify({
+    //         user: action.payload // payload = { username, password }
+    //       })
+    //   })
+    //     // if no errors client shoudl be redirected by server to calendar page
+    //     // send them to home calendar page
+    //   .catch((error) => {
+    //     console.log(error);
+    //     // create alert to client of input errors?
+    //   })
 
-    case type.getMedicineCardList: // on load on the calendar page
-      fetch("http://localhost:3000/all", {
-        method: "GET",
+    case types.getMedicineCardList: // on load on the calendar page
+      fetch("http://localhost:3000/calendar", {
+        method: "POST",
         headers: {
           "Content-Type" : "application/json"
-        }
+        },
+        body: JSON.stringify({
+          //username: "Hello" // payload = { username }
+          ...action.payload
+        })
       })
       .then((data) => data.json())
       .then((data) => {
+        console.log("HELLOLOLOLOLOL");
+        console.log("DATAAAA: ", data)
         newMedicineList = data.medList // array of objects
         return {
-          user: data.user, // initial time state updated wtih user (when page first loads after login)
+          username: data.user, // initial time state updated wtih user (when page first loads after login)
           medicineList: newMedicineList
         }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        return console.log(error)
+      });
 
 
     // export const addNewMedicineCard = "addNewMedicineCard";
@@ -86,24 +94,24 @@ const medicineReducer = (state = initialState, action) => {
     //   medicineList: [] // array of objects
     // };
 
-    case type.addNewMedicineCard: 
-      fetch("http://localhost:3000/addcard", {
-        method: "POST",
-        headers: {
-          "Content-Type" : "application/json" 
-        },
-        body: JSON.stringify({
-          user: action.payload // payload = { username, medicineName, dosage, purchaseDate, expirationDate, refillDate, doctorContact, notes }
-        })
-      })
-      .then((data) => data.json())
-      .then((data) => {
-        newMedicineList = data.medList // array of objects
-        return {
-          ...state, 
-          medicineList: newMedicineList
-        }
-      })
+    // case types.addNewMedicineCard: 
+    //   fetch("http://localhost:3000/addcard", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type" : "application/json" 
+    //     },
+    //     body: JSON.stringify({
+    //       user: action.payload // payload = { username, medicineName, dosage, purchaseDate, expirationDate, refillDate, doctorContact, notes }
+    //     })
+    //   })
+    //   .then((data) => data.json())
+    //   .then((data) => {
+    //     newMedicineList = data.medList // array of objects
+    //     return {
+    //       ...state, 
+    //       medicineList: newMedicineList
+    //     }
+    //   })
 
 // {
 //   user: username,
@@ -124,7 +132,7 @@ const medicineReducer = (state = initialState, action) => {
 //   ]
 // }
 
-    case type.updateMedicineCard: // this action object has payload
+    case types.updateMedicineCard: // this action object has payload
       // send DELETE request to server 
         // if server can delete (no error)
           // 
@@ -132,7 +140,7 @@ const medicineReducer = (state = initialState, action) => {
           // alert message to client?
 
 
-    case type.deleteMedicineCard: // this action object has payload
+    case types.deleteMedicineCard: // this action object has payload
       // send DELETE request to server 
         // if server can delete (no error)
           // 

@@ -15,20 +15,21 @@
     <form class="form" method="POST" action="/login">
       <div class="form-row">
         <label>Username: </label>
-        <input class="input" type="text">
+        <input class="input" type="text" name="username"> 
       </div>
       <div class="form-row">
         <label>Password: </label>
-        <input class="input" type="text">
+        <input class="input" type="text" name="password">
       </div>
       <p></p>
-      <button class="button">Login</button>
+      <input type='submit' value="login" class="button">
+      <!-- <button class="button">Login</button> -->
       <p></p>
-      <div id="OAuth">
-        <div>Login with <a href="www.google.com">Google</a></div>
-        <div>Login with <a href="www.facebook.com">Facebook</a></div>
-      </div>
     </form>
+    <div id="OAuth">
+      <div>Login with <a href="www.google.com">Google</a></div>
+      <div>Login with <a href="www.facebook.com">Facebook</a></div>
+    </div>
   </main>
 
 </body>

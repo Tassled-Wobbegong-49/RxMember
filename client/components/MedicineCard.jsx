@@ -4,17 +4,29 @@ import React from 'react';
 const MedicineCard = (props) => {
   return(
     <main className="medicineCard">
-      <div className="cardBox">medicine</div>
-      <div className="cardBox">dosage</div>
-      <div className="cardBox">purchaseDate</div> 
-      <div className="cardBox">expiration</div>
-      <div className="cardBox">refill</div>
-      <div className="cardBox">doctor</div>
-      <div className="cardBox">notes</div>
+      <div className="cardBox">{props.medicineName}</div>
+      <div className="cardBox">{props.dosage}</div>
+      <div className="cardBox">{props.purchaseDate}</div> 
+      <div className="cardBox">{props.expirationDate}</div>
+      <div className="cardBox">{props.refillDate}</div>
+      <div className="cardBox">{props.doctorContact}</div>
+      <div className="cardBox">{props.notes}</div>
       <button>delete</button>
     </main>
   )
 }
+
+{/* user={this.props.user} 
+        medicineName={this.props.medList[i].medicineName} 
+        dosage={this.props.medList[i].dosage} 
+        expirationDate={this.props.medList[i].expirationDate} 
+        refillDate={this.props.medList[i].refillDate} 
+        purchaseDate={this.props.medList[i].purchaseDate} 
+        doctorContact={this.props.medList[i].doctorContact} 
+        notes={this.props.medList[i].notes} 
+        updateCard={this.props.updateCard} 
+        deleteCard={this.props.deleteCard}  */}
+
 // props.medList[index].medicineName
 // props.medList[index].dosage
 // props.medList[index].purchaseDate

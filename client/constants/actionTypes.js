@@ -1,4 +1,4 @@
-// ACTION TYPESS
+// ACTION TYPES
 
 export const getMedicineCardList = "getMedicineCardList";
 export const addNewMedicineCard = "addNewMedicineCard";
