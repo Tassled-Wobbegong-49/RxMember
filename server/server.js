@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 });
 
 // respond to POST request with log-in info
-app.post('/', controller.verifyLogIn, (req, res) => {
+app.post('/login', controller.verifyLogIn, (req, res) => {
   // if login returned from db is not null, send back 'successful login'
   if (res.locals.foundUser){
     res.status(200).send('login successful')
