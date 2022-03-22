@@ -12,14 +12,14 @@
   <h1> <img src="./images/Logo.jpg" alt="RxMember Logo"> </h1>
   <h2>Please fill out the following: </h2>
 
-  <form class="form" action="POST">
+  <form class="form" method="POST" action="/signup">
     <div class="form-row" class="username-field">
       <label>Username: </label>
       <input class="input" type="text">
     </div>
     <div class="form-row" class="password-field">
       <label>Password: </label>
-      <input class="input" type="text">
+      <input class="input" type="password">
     </div>
     <div class="form-row" class="email-field">
       <label>Email: </label>
@@ -32,12 +32,12 @@
     <p></p>
     <button class="button">Sign Up</button>
     <p></p>
-    <div id="OAuth">
-      <div>Sign in with <a href="www.google.com">Google</a></div>
-      <div>Sign in with <a href="www.facebook.com">Facebook</a></div>
-    </div>
-
+    
   </form>
+  <div id="OAuth">
+    <div>Sign in with <a href="www.google.com">Google</a></div>
+    <div>Sign in with <a href="www.facebook.com">Facebook</a></div>
+  </div>
 
 </main>
 

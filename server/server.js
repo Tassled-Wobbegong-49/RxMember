@@ -92,7 +92,7 @@ app.patch('/updatecard/:username/:name', controller.updateMed, (req, res) => {
   res.status(200).send(res.locals.med)
 })
 // respond to DELETE req for deleting med 
-app.delete('/deletecard', (req, res) => {
+app.delete('/deletecard', controller.deleteMed, (req, res) => {
   
 })
 

@@ -146,7 +146,26 @@ const controller = {
   },
 
   // delete med
-  
+  deleteMed: (req, res, next) => {
+    User.findOneAndDelete(
+      { username: req.body.username },
+      (err, User) => {
+        if (err) {
+          return next({
+            log: 'Error in getMedlist middleware',
+            status: 400,
+            message: {err: 'No medlist with this username'}
+          })
+        } else {
+          // console.log('User', User);
+          // console.log('Usermedlist', User.medList);
+          // console.log('res.locals!!!!!!!!!!!!', res.locals);
+          // res.locals.medList = User.medList;
+          return next();
+        }
+      }
+    )
+  },
 
 
   // udpate med
