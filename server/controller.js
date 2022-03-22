@@ -65,8 +65,8 @@ const controller = {
     // logic with req.params.username
     const { username } = req.body;
     const { name, dosage, purchaseDate, exp, refill, doctor, notes } = req.body;
-    console.log('req.body', req.body);
-    console.log('username', username);
+    // console.log('req.body', req.body);
+    // console.log('username', username);
 
     // User.findOne({username}, ).insertMany(medList.$[medList.lenght-1]: name, dosage,,,,)
 
@@ -144,6 +144,29 @@ const controller = {
       }
     )
   },
+
+  // delete med
+  deleteMed: (req, res, next) => {
+    User.findOneAndDelete(
+      { username: req.body.username },
+      (err, User) => {
+        if (err) {
+          return next({
+            log: 'Error in getMedlist middleware',
+            status: 400,
+            message: {err: 'No medlist with this username'}
+          })
+        } else {
+          // console.log('User', User);
+          // console.log('Usermedlist', User.medList);
+          // console.log('res.locals!!!!!!!!!!!!', res.locals);
+          // res.locals.medList = User.medList;
+          return next();
+        }
+      }
+    )
+  },
+
 
   // udpate med
   updateMed: (req, res, next) => {
