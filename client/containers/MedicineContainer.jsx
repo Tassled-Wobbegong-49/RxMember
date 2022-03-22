@@ -6,13 +6,10 @@ import MedicineCard from '../components/MedicineCard.jsx';
 import AddMedicine from '../components/AddMedicine.jsx';
 
 // MAP WHAT STATE PROPERTIES WE WANT TO PASS DOWN PASS DOWN
-const mapStateToProps = state => ({
-  user: state.reducer.user,
-  medList: state.reducer.medList
+const mapStateToProps = ({reducer}) => ({
+  username: reducer.username,
+  medList: reducer.medicineList
 });
-
-
-
 
 // MAP WHAT DISPATCH/ACTION CREATORS WE WANT TO PASS DOWN
 const mapDispatchToProps = dispatch => ({
@@ -41,15 +38,15 @@ class MedicineContainer extends Component {
 
     // loop through medList (from state) to render all medicine cards
     const cardList = [];
-    for (let i=0; i < this.props.medList; i++) {
+    for (let i=0; i < this.props.medList.length; i++) { //
       cardList.push(<MedicineCard 
-        user={this.props.user} 
-        medicineName={this.props.medList[i].medicineName} 
+        username={this.props.username} 
+        medicineName={this.props.medList[i].name} 
         dosage={this.props.medList[i].dosage} 
-        expirationDate={this.props.medList[i].expirationDate} 
-        refillDate={this.props.medList[i].refillDate} 
+        expirationDate={this.props.medList[i].exp} 
+        refillDate={this.props.medList[i].refill} 
         purchaseDate={this.props.medList[i].purchaseDate} 
-        doctorContact={this.props.medList[i].doctorContact} 
+        doctorContact={this.props.medList[i].doctor} 
         notes={this.props.medList[i].notes} 
         updateCard={this.props.updateCard} 
         deleteCard={this.props.deleteCard} 
@@ -81,14 +78,29 @@ class MedicineContainer extends Component {
   // update card on click method. Editable fields on click? pop up modal?
   // delete card on click function. Are you sure prompt?
   getInfo() {
-    let body ={};
+    let stateData = {};
+    let body = {};
     body.username = document.getElementById('username').value;
     // body.username = 'Hello';
     // body.password = 'world';
     console.log("body: ", body);
-    this.props.getMedicineCardList(body);
-    // })
-  }
+    fetch("http://localhost:3000/calendar", {
+        method: "POST",
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        body: JSON.stringify({
+          //username: "Hello" // payload = { username }
+          ...body
+        })
+      })
+      .then((data) => data.json())
+      .then((data) => {
+        stateData = {...data}
+        this.props.getMedicineCardList(stateData);
+      })
+  }    
+  
 
 
 

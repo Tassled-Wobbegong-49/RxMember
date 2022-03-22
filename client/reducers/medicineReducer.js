@@ -3,7 +3,7 @@ import * as types from '../constants/actionTypes.js'
 
 // DECLARE INITIAL STATE
 const initialState = {
-  username: {}, // object with username and email
+  username: "", // object with username and email
   medicineList: [], // array of objects
   // medicineCard: {
   //   medicineName: "",
@@ -20,7 +20,7 @@ const initialState = {
 // DECLARE REDUCER FUNCTION
 const medicineReducer = (state = initialState, action) => {
   let newMedicineList;
-
+  let result;
   switch (action.type) {
 
     // case types.createNewUser: // on signup page
@@ -57,31 +57,13 @@ const medicineReducer = (state = initialState, action) => {
     //     // create alert to client of input errors?
     //   })
 
-    case types.getMedicineCardList: // on load on the calendar page
-      fetch("http://localhost:3000/calendar", {
-        method: "POST",
-        headers: {
-          "Content-Type" : "application/json"
-        },
-        body: JSON.stringify({
-          //username: "Hello" // payload = { username }
-          ...action.payload
-        })
-      })
-      .then((data) => data.json())
-      .then((data) => {
-        console.log("HELLOLOLOLOLOL");
-        console.log("DATAAAA: ", data)
-        newMedicineList = data.medList // array of objects
-        return {
-          username: data.user, // initial time state updated wtih user (when page first loads after login)
-          medicineList: newMedicineList
-        }
-      })
-      .catch((error) => {
-        return console.log(error)
-      });
-
+    case types.getMedicineCardList: {// on load on the calendar page
+      let newMedicineList = action.payload.medList;
+      return {
+        username: action.payload.username, // initial time state updated wtih user (when page first loads after login)
+        medicineList: newMedicineList
+      };
+    }
 
     // export const addNewMedicineCard = "addNewMedicineCard";
     // export const updateMedicineCard = "updateMedicineCard";
@@ -157,3 +139,43 @@ const medicineReducer = (state = initialState, action) => {
 
 
 export default medicineReducer;
+
+
+
+
+
+// case types.getMedicineCardList: {// on load on the calendar page
+//   // fetch("http://localhost:3000/calendar", {
+//   //   method: "POST",
+//   //   headers: {
+//   //     "Content-Type" : "application/json"
+//   //   },
+//   //   body: JSON.stringify({
+//   //     //username: "Hello" // payload = { username }
+//   //     ...action.payload
+//   //   })
+//   // })
+//   // .then((data) => data.json())
+//   // .then((data) => {
+//   //   result = data;
+//   //   console.log("HELLOLOLOLOLOL");
+//   //   console.log("DATAAAA: ", data)
+//   //   console.log("Data.medList ", data.medList)
+//   //   console.log("Data.username ", data.username)     
+//   //   newMedicineList = data.medList // array of objects
+//   //   console.log("currentState: ", state)
+//     // const thing = Object.assign({}, state, {
+//     //   username: data.username, // initial time state updated wtih user (when page first loads after login)
+//     //   medicineList: newMedicineList
+//     // })
+//     // console.log(thing)
+//     // return thing
+//     return {
+//       username: "helllllo", // initial time state updated wtih user (when page first loads after login)
+//       medicineList: [{test:"newMedicineList"}]
+//     };
+//   // })
+//   // .catch((error) => {
+//   //   return console.log(error)
+//   // });
+// }
