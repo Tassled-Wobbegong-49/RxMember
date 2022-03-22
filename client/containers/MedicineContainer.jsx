@@ -13,9 +13,9 @@ const mapStateToProps = ({reducer}) => ({
 
 // MAP WHAT DISPATCH/ACTION CREATORS WE WANT TO PASS DOWN
 const mapDispatchToProps = dispatch => ({
-  // addCard: (data) => {
-  //   dispatch(actions.addNewMedicineCardAC(data));
-  // },
+  addCard: (data) => {
+    dispatch(actions.addNewMedicineCardAC(data));
+  },
   getMedicineCardList: (data) => {
     dispatch(actions.getMedicineCardListAC(data));
   },
@@ -56,11 +56,11 @@ class MedicineContainer extends Component {
     return (
       <main>
         <label><input id="username" type="text" placeholder="username"/></label>
-        <label><input id="password" type="text" placeholder="password"/></label>
         <button onClick={()=> {this.getInfo()}}>get info</button>
         <AddMedicine 
-          // user={this.props.user}
-          // addCard={this.props.addCard}
+          username={this.props.username}
+          addCardInfo={this.addCardInfo}
+          addCard={this.props.addCard}
         />
         <CardHeadings/>
         { cardList }
@@ -74,9 +74,6 @@ class MedicineContainer extends Component {
     )
   }
 
-  // add card on click method
-  // update card on click method. Editable fields on click? pop up modal?
-  // delete card on click function. Are you sure prompt?
   getInfo() {
     let stateData = {};
     let body = {};
@@ -101,6 +98,39 @@ class MedicineContainer extends Component {
       })
   }    
   
+  addCardInfo(username, callback) {
+    let medData = [];
+    let body = {};
+    body.username = username;
+    body.name = document.getElementById('name').value;
+    body.dosage = document.getElementById('dosage').value;
+    body.purchaseDate = document.getElementById('purchaseDate').value;
+    body.exp = document.getElementById('exp').value;
+    body.refill = document.getElementById('refill').value;
+    body.doctor = document.getElementById('doctor').value;
+    body.notes = document.getElementById('notes').value;
+    fetch("http://localhost:3000/addcard", {
+        method: "POST",
+        headers: {
+          "Content-Type" : "application/json"
+        },
+        body: JSON.stringify({
+          //username: "Hello" // payload = { username }
+          ...body
+        })
+      })
+      .then((data) => data.json())
+      .then((data) => {
+        const receivedMedList = data.medList
+        medData = [...receivedMedList]
+
+        callback(medData);
+        // this.props.addCard(medData);
+      })
+  }
+
+
+
 
 
 

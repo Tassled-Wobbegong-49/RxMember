@@ -77,22 +77,24 @@ app.post('/calendar', controller.getMedlist, (req, res) => {
 })
 
 // respond to POST req for new medicine 
-// app.post('/addcard', controller.addMed, (req, res) => {
-//   if (res.locals.med){
-//     console.log(res.locals.med);
-//     // res.locals.User.medlist.push(res.locals.med)
-//     res.status(200).send(res.locals.med);
+app.post('/addcard', controller.addMed, (req, res) => {
+  if (res.locals.med){
+    // console.log(res.locals.med);
+    // res.locals.User.medlist.push(res.locals.med)
+    res.status(200).send(res.locals.med);
 
-//   } else {
-//     res.status(400).send('error in adding medicine')
-//   }
-// })
+  } else {
+    res.status(400).send('error in adding medicine')
+  }
+})
 // respond to PUT/PATCH req for updating med info
 app.patch('/updatecard/:username/:name', controller.updateMed, (req, res) => {
   res.status(200).send(res.locals.med)
 })
 // respond to DELETE req for deleting med 
-app.delete('/deletecard')
+app.delete('/deletecard', (req, res) => {
+  
+})
 
 
 /******** TEST ROUTE FOR GRABBING ALL USERS IN DB ********/

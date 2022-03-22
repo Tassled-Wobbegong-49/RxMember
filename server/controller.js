@@ -65,8 +65,8 @@ const controller = {
     // logic with req.params.username
     const { username } = req.body;
     const { name, dosage, purchaseDate, exp, refill, doctor, notes } = req.body;
-    console.log('req.body', req.body);
-    console.log('username', username);
+    // console.log('req.body', req.body);
+    // console.log('username', username);
 
     // User.findOne({username}, ).insertMany(medList.$[medList.lenght-1]: name, dosage,,,,)
 
@@ -144,6 +144,10 @@ const controller = {
       }
     )
   },
+
+  // delete med
+  
+
 
   // udpate med
   updateMed: (req, res, next) => {

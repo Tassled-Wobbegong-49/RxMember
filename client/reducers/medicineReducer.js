@@ -76,24 +76,13 @@ const medicineReducer = (state = initialState, action) => {
     //   medicineList: [] // array of objects
     // };
 
-    // case types.addNewMedicineCard: 
-    //   fetch("http://localhost:3000/addcard", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type" : "application/json" 
-    //     },
-    //     body: JSON.stringify({
-    //       user: action.payload // payload = { username, medicineName, dosage, purchaseDate, expirationDate, refillDate, doctorContact, notes }
-    //     })
-    //   })
-    //   .then((data) => data.json())
-    //   .then((data) => {
-    //     newMedicineList = data.medList // array of objects
-    //     return {
-    //       ...state, 
-    //       medicineList: newMedicineList
-    //     }
-    //   })
+    case types.addNewMedicineCard: {
+      let receivedMedList = action.payload;
+      return {
+        ...state,
+        medicineList: receivedMedList
+      };
+    }
 
 // {
 //   user: username,
